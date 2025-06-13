@@ -1,0 +1,29 @@
+.register-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    mat-form-field {
+        width: 100%;
+    }
+    button {
+        width: 100%;
+        margin-top: 20px;
+    }
+    h3 {
+        margin-top: 30px;
+        color: #333;
+    }
+    ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+    li {
+        background-color: #e0e0e0;
+        margin: 5px 0;
+        padding: 8px;
+        border-radius: 4px;
+    }
+}

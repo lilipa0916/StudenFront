@@ -1,0 +1,37 @@
+<div class="register-container">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+            <mat-label>Nombre del Estudiante</mat-label>
+            <input matInput formControlName="nombre" />
+            <mat-error *ngIf="registerForm.controls['nombre'].hasError('required')">
+                El nombre es obligatorio.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Selecciona las materias</mat-label>
+            <mat-select formControlName="materias" multiple>
+                <mat-option *ngFor="let materia of materias" [value]="materia.id">
+                    {{ materia.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="registerForm.controls['materias'].hasError('required')">
+                Debes seleccionar al menos una materia.
+            </mat-error>
+            <mat-error *ngIf="registerForm.controls['materias'].hasError('maxMaterias')">
+                Un estudiante solo puede seleccionar hasta 3 materias.
+            </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">Registrar</button>
+    </form>
+
+    <div *ngIf="estudiantes.length > 0">
+        <h3>Estudiantes registrados</h3>
+        <ul>
+            <li *ngFor="let estudiante of estudiantes">
+                {{ estudiante.nombre }}
+            </li>
+        </ul>
+    </div>
+</div>

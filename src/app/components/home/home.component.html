@@ -1,0 +1,26 @@
+<div class="home-container">
+    <div class="options">
+        <button mat-raised-button color="primary" (click)="showRegister()">Registrar Estudiante</button>
+        <button mat-raised-button color="accent" (click)="showSearch()">Buscar Estudiante</button>
+    </div>
+
+    <!-- Mostrar formulario de registro -->
+    <div *ngIf="showRegisterForm">
+        <app-register></app-register>
+    </div>
+
+    <!-- Mostrar formulario de búsqueda -->
+    <div *ngIf="showSearchForm">
+        <mat-form-field appearance="fill">
+            <mat-label>Buscar Estudiante</mat-label>
+            <input matInput [(ngModel)]="searchTerm" (input)="searchEstudiantes()" placeholder="Escribe el nombre del estudiante" />
+        </mat-form-field>
+
+        <div *ngIf="estudiantes.length > 0">
+            <h3>Resultados de búsqueda</h3>
+            <ul>
+                <li *ngFor="let estudiante of estudiantes">{{ estudiante.nombre }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
