@@ -5,28 +5,37 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './components/home/home.component';
-import { RegisterComponent } from './components/register/register.component';  // Asegúrate de que el componente está importado
+
+import { RegisterComponent } from './components/registrar-estudiante/register.component'; 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input'; 
-import { MatButtonModule } from '@angular/material/button'; // Para los botones
-import { FormsModule } from '@angular/forms'; // Necesario para ngModel
-import { MatSelectModule } from '@angular/material/select';  // Asegúrate de importar este módulo
-import { MatOptionModule } from '@angular/material/core';  // Asegúrate de importar este módulo
-// Importar Reactive Forms
-import { ReactiveFormsModule } from '@angular/forms';  // Necesario para trabajar con formularios reactivos
-
-import { HttpClientModule } from '@angular/common/http';  // Aquí es donde se importa HttpClientModule
-
-
+import { MatButtonModule } from '@angular/material/button'; 
+import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select'; 
+import { MatOptionModule } from '@angular/material/core';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon'; 
+import { ReactiveFormsModule } from '@angular/forms';  
+import { HttpClientModule } from '@angular/common/http';  
 
 
+// import { MatErrorModule } from '@angular/material/core'; // Para mat-error
+// import { MatLabelModule } from '@angular/material/form-field'; // Para mat-label
+
+
+import { EditEstudianteComponent } from './components/editar-estudiante/edit-estudiante.component'; 
+import { ViewClasesComponent } from './components/list-clases/view-clases.component'; 
+import { RegisterClasesComponent } from './components/registrar-clases/register-clases.component'; 
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    EditEstudianteComponent,
+    ViewClasesComponent,
+    RegisterClasesComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,10 +45,13 @@ import { HttpClientModule } from '@angular/common/http';  // Aquí es donde se i
     MatInputModule,
     MatButtonModule,
     FormsModule,  
-    MatSelectModule,  // Añadir MatSelectModule
-    MatOptionModule,  // Añadir MatOptionModule
-    ReactiveFormsModule,  // Añadir ReactiveFormsModule
+    MatSelectModule,
+    MatOptionModule,  
+    ReactiveFormsModule,  
     HttpClientModule, 
+    MatTableModule, 
+    MatIconModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

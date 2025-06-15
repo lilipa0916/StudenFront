@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,EventEmitter, Output  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EstudianteService } from '../../services/estudiante.services';
 import { MateriaService } from '../../services/materia.service';
@@ -6,7 +6,7 @@ import { ProfesorService } from '../../services/profesor.service';
 import { Materia} from '../../models/Materia';
 import { Profesor} from '../../models/Profesor';
 import { Estudiante } from '../../models/Estudiante';
-import { EstudianteCreateDto } from '../../models/estudiante-create-dto.model';
+import { EstudianteCreateDto } from '../../models/Estudiante-create-dto.model';
 
 
 
@@ -92,15 +92,16 @@ onSubmit() {
   this.estudianteService.registerEstudiante(estudianteCreateDto).subscribe(
       (response) => {
         console.log('Estudiante registrado', response);
+        this.registerForm.reset()
+        this.estudianteCreado.emit(response);
         this.successMessage = '¡Estudiante registrado con éxito!';
         this.errorMessage = ''; // Limpiar cualquier mensaje de error en caso de éxito
       },
       (error) => {
         // Verificar que el error tenga un mensaje
         if (error.status === 400 && error.error) {
-          this.errorMessage = error.error;  // Asignamos el mensaje de error directamente desde el backend
+          this.errorMessage = error.error;  
         } else {
-          // Mensaje genérico si no hay mensaje específico
           this.errorMessage = 'Ocurrió un error inesperado. Intenta de nuevo.';
         }
         console.error('Error al registrar estudiante', error);
@@ -108,6 +109,7 @@ onSubmit() {
     );
   }
 }
+ @Output() estudianteCreado: EventEmitter<Estudiante> = new EventEmitter<Estudiante>();
 
     // getProfesoresDeMateria(materiaId: number): Profesor[] {
     //     return this.profesores.filter(

@@ -1,0 +1,19 @@
+<div class="view-clases-container">
+    <h2>Ver Clases</h2>
+
+    <div *ngIf="clases.length > 0">
+        <h3>Clases Inscritas</h3>
+        <ul>
+            <li *ngFor="let clase of clases">
+                {{ clase.nombre }} - {{ clase.profesorNombre }}
+            </li>
+        </ul>
+
+        <h3>Compañeros de Clase</h3>
+        <ul>
+            <li *ngFor="let companero of companeros">
+                {{ companero.nombre }}
+            </li>
+        </ul>
+    </div>
+</div>

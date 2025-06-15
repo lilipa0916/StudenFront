@@ -1,7 +1,6 @@
 <div class="home-container">
     <div class="options">
         <button mat-raised-button color="primary" (click)="showRegister()">Registrar Estudiante</button>
-        <button mat-raised-button color="accent" (click)="showSearch()">Buscar Estudiante</button>
     </div>
 
     <!-- Mostrar formulario de registro -->
@@ -9,30 +8,43 @@
         <app-register></app-register>
     </div>
 
-    <!-- Mostrar formulario de búsqueda -->
-    <div *ngIf="showSearchForm">
-        <mat-form-field appearance="fill">
-            <mat-label>Buscar Estudiante</mat-label>
-            <input matInput [(ngModel)]="searchTerm" (input)="searchEstudiantes()" placeholder="Escribe el nombre del estudiante" />
-        </mat-form-field>
-
-        <div *ngIf="estudiantes.length > 0">
-            <h3>Resultados de búsqueda</h3>
-            <ul>
-                <li *ngFor="let estudiante of estudiantes">{{ estudiante.nombre }}</li>
-            </ul>
-        </div>
-    </div>
-
-</div>
-
-<div class="register-container">
+    <!-- Mostrar tabla de estudiantes -->
     <div *ngIf="estudiantes.length > 0">
-        <h3>Estudiantes registrados</h3>
-        <ul>
-            <li *ngFor="let estudiante of estudiantes">
-                {{ estudiante.nombre }} - {{estudiante.documento}}
-            </li>
-        </ul>
+        <h3>Estudiantes Registrados</h3>
+
+        <app-register (estudianteCreado)="agregarEstudianteATabla($event)"></app-register>
+
+        <table mat-table [dataSource]="estudiantes" class="student-table">
+            <!-- Columnas de la tabla -->
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                <td mat-cell *matCellDef="let estudiante">{{ estudiante.nombre }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="documento">
+                <th mat-header-cell *matHeaderCellDef>Documento</th>
+                <td mat-cell *matCellDef="let estudiante">{{ estudiante.documento }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let estudiante">
+                    <button mat-button (click)="editEstudiante(estudiante)">Editar</button>
+                    <button mat-button color="warn" (click)="deleteEstudiante(estudiante)">Eliminar</button>
+                    <!-- <button mat-button color="primary" (click)="registerClasses(estudiante)">Registrar Clases</button> -->
+                    <button mat-button color="accent" (click)="viewClasses(estudiante)">Ver Clases</button>
+
+                    <button mat-button color="primary" [routerLink]="['/edit-estudiante', estudiante.id]">Editar  Rut</button>
+                    <button mat-button color="accent" [routerLink]="['/register-clases', estudiante.id]">Registrar Clases Rut</button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
     </div>
+    <div *ngIf="errorMessage" class="error-message">
+        <p>{{ errorMessage }}</p>
+    </div>
+
 </div>

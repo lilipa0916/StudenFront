@@ -1,0 +1,39 @@
+<div class="edit-container">
+    <h2>Editar Estudiante</h2>
+    <form [formGroup]="estudianteForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+            <mat-label>Nombre del Estudiante</mat-label>
+            <input matInput formControlName="nombre" />
+            <mat-error *ngIf="estudianteForm.controls['nombre'].hasError('required')">
+                El nombre es obligatorio.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>N° Documento/Identificación</mat-label>
+            <input matInput formControlName="documento" />
+            <mat-error *ngIf="estudianteForm.controls['documento'].hasError('required')">
+                El documento es obligatorio.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Selecciona las materias</mat-label>
+            <mat-select formControlName="materias" multiple>
+                <mat-option *ngFor="let materia of materias" [value]="materia.id">
+                    {{ materia.nombre }} - {{ materia.creditos }} créditos
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="estudianteForm.controls['materias'].hasError('required')">
+                Debes seleccionar al menos una materia.
+            </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="estudianteForm.invalid">Guardar Cambios</button>
+    </form>
+
+    <div *ngIf="errorMessage" class="error-message">
+        <p>{{ errorMessage }}</p>
+    </div>
+
+</div>

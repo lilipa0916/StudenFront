@@ -1,0 +1,4 @@
+export interface MateriaConCompanerosDTO {
+  materiaNombre: string;
+  companeros: string[]; // Lista de nombres de los compañeros
+}
