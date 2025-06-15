@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Estudiante,  } from '../models/Estudiante';
+import { EstudianteCreateDto } from '../models/estudiante-create-dto.model';
 
 @Injectable({
     providedIn: 'root'
@@ -18,8 +19,8 @@ export class EstudianteService {
     getEstudianteById(id: number): Observable<Estudiante> {
         return this.http.get<Estudiante>(`${this.apiUrl}/${id}`);
     }
-    registerEstudiante(estudiante: Estudiante): Observable<Estudiante> {
-        return this.http.post<Estudiante>(`${this.apiUrl}/estudiantes`, estudiante);
+    registerEstudiante(estudiante: EstudianteCreateDto): Observable<EstudianteCreateDto> {
+        return this.http.post<EstudianteCreateDto>(`${this.apiUrl}/estudiantes`, estudiante);
     }
 
     getCompaneros(estudianteId: number): Observable<Estudiante[]> {

@@ -6,6 +6,7 @@ import { ProfesorService } from '../../services/profesor.service';
 import { Materia} from '../../models/Materia';
 import { Profesor} from '../../models/Profesor';
 import { Estudiante } from '../../models/Estudiante';
+import { EstudianteCreateDto } from '../../models/estudiante-create-dto.model';
 
 
 
@@ -19,7 +20,9 @@ export class RegisterComponent implements OnInit {
     materias: Materia[] = [];
     profesores: Profesor[] = [];
     estudiantes: Estudiante[] = [];
-    
+    errorMessage: string = ''; 
+    successMessage: string = ''; 
+    totalCreditos: number = 0; 
     constructor(
         private fb: FormBuilder, 
         private estudianteService: EstudianteService,
@@ -27,6 +30,7 @@ export class RegisterComponent implements OnInit {
         private profesorService: ProfesorService) {
         this.registerForm = this.fb.group({
             nombre: ['', Validators.required],
+            documento: ['', Validators.required],
             materias: [[], [Validators.required, this.materiasValidator]]
         });
     }
@@ -41,7 +45,21 @@ export class RegisterComponent implements OnInit {
         this.materiaService.getMaterias().subscribe((materias) => {
         this.materias = materias;
         });
+        this.updateTotalCreditos(); 
     }
+
+    updateTotalCreditos() {
+    const selectedMaterias = this.registerForm.value.materias;
+    this.totalCreditos = 0;
+
+    // Iterar sobre las materias seleccionadas y sumar los créditos
+    selectedMaterias.forEach((materiaId: number) => {
+      const materia = this.materias.find((m) => m.id === materiaId);
+      if (materia) {
+        this.totalCreditos += materia.creditos;
+      }
+    });
+  }
 
     loadProfesores() {
         this.profesorService.getProfesores().subscribe((profesores) => {
@@ -62,19 +80,34 @@ export class RegisterComponent implements OnInit {
         return null;
     }    
 
-    onSubmit() {
-        if (this.registerForm.valid) {
-        const estudiante = this.registerForm.value;
-        this.estudianteService.registerEstudiante(estudiante).subscribe(
-            (response) => {
-            console.log('Estudiante registrado', response);
-            },
-            (error) => {
-            console.error('Error al registrar estudiante', error);
-            }
-        );
+onSubmit() {
+  if (this.registerForm.valid) {
+    const estudianteCreateDto: EstudianteCreateDto = {
+      id:0,
+      nombre: this.registerForm.value.nombre,
+      documento: this.registerForm.value.documento,
+      materiaIds: this.registerForm.value.materias // Pasamos las materias seleccionadas
+    };
+
+  this.estudianteService.registerEstudiante(estudianteCreateDto).subscribe(
+      (response) => {
+        console.log('Estudiante registrado', response);
+        this.successMessage = '¡Estudiante registrado con éxito!';
+        this.errorMessage = ''; // Limpiar cualquier mensaje de error en caso de éxito
+      },
+      (error) => {
+        // Verificar que el error tenga un mensaje
+        if (error.status === 400 && error.error) {
+          this.errorMessage = error.error;  // Asignamos el mensaje de error directamente desde el backend
+        } else {
+          // Mensaje genérico si no hay mensaje específico
+          this.errorMessage = 'Ocurrió un error inesperado. Intenta de nuevo.';
         }
-    }    
+        console.error('Error al registrar estudiante', error);
+      }
+    );
+  }
+}
 
     // getProfesoresDeMateria(materiaId: number): Profesor[] {
     //     return this.profesores.filter(
