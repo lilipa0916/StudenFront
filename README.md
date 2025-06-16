@@ -1,27 +1,63 @@
-# StudentRegistration
+🎨 Registro Estudiantes - Frontend (Angular 15)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.11.
+Frontend construido con Angular 15 y Angular Material para una experiencia de usuario moderna y responsiva.
 
-## Development server
+🔧 Tecnologías Utilizadas
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Angular 15
 
-## Code scaffolding
+Angular Material
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+TypeScript
 
-## Build
+SCSS / HTML
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+📊 Características
 
-## Running unit tests
+Registro de estudiantes
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Validaciones de formulario
 
-## Running end-to-end tests
+Visualización de materias y compañeros por clase
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Botones con iconos y diseño responsivo
 
-## Further help
+CRUD completo contra API .NET
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+📁 Configuración del Proyecto
+
+Clona el repositorio frontend:
+
+git clone https://github.com/lilipa0916/StudenFront
+
+Instala dependencias:
+
+npm install
+
+Modifica las URLs del backend en caso de ser necesario:
+
+src/app/services/estudiante.services.ts
+
+src/app/services/materia.service.ts
+
+src/app/services/profesor.service.ts
+
+Ejemplo:
+
+private API_URL = 'https://localhost:7299/api';
+
+Ejecuta Angular:
+
+ng serve
+
+🔁 Asegúrate de que el frontend esté corriendo en http://localhost:4200, ya que este puerto está configurado para aceptar solicitudes en el backend.
+
+Accede a la aplicación:
+
+http://localhost:4200
+
+📖 Créditos
+
+Desarrollado por Liliana Muñoz ✉️ liliana.munozc@hotmail.com
+
+
