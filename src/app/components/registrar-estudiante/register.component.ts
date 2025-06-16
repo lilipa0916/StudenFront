@@ -7,7 +7,7 @@ import { Materia} from '../../models/Materia';
 import { Profesor} from '../../models/Profesor';
 import { Estudiante } from '../../models/Estudiante';
 import { EstudianteCreateDto } from '../../models/Estudiante-create-dto.model';
-
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -27,6 +27,7 @@ export class RegisterComponent implements OnInit {
         private fb: FormBuilder, 
         private estudianteService: EstudianteService,
         private materiaService: MateriaService,
+        private router: Router,
         private profesorService: ProfesorService) {
         this.registerForm = this.fb.group({
             nombre: ['', Validators.required],
@@ -93,9 +94,9 @@ onSubmit() {
       (response) => {
         console.log('Estudiante registrado', response);
         this.registerForm.reset()
-        this.estudianteCreado.emit(response);
         this.successMessage = '¡Estudiante registrado con éxito!';
         this.errorMessage = ''; // Limpiar cualquier mensaje de error en caso de éxito
+        this.router.navigate(['/home']);
       },
       (error) => {
         // Verificar que el error tenga un mensaje
@@ -109,7 +110,6 @@ onSubmit() {
     );
   }
 }
- @Output() estudianteCreado: EventEmitter<Estudiante> = new EventEmitter<Estudiante>();
 
     // getProfesoresDeMateria(materiaId: number): Profesor[] {
     //     return this.profesores.filter(

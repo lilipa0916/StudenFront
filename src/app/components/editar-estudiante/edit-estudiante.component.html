@@ -27,12 +27,12 @@
             <mat-error *ngIf="estudianteForm.controls['materias'].hasError('required')">
                 Debes seleccionar 3 materias.
             </mat-error>
-            <mat-error *ngIf="estudianteForm.controls['materias'].hasError('maxMaterias')">
+            <!-- <mat-error *ngIf="estudianteForm.controls['materias'].hasError('maxMaterias')">
                 Un estudiante solo puede seleccionar 3 materias.
             </mat-error>
             <mat-error *ngIf="estudianteForm.controls['materias'].hasError('sameProfessor')">
                 No puedes seleccionar 2 materias con el mismo profesor.
-            </mat-error>
+            </mat-error> -->
         </mat-form-field>
         <div class="credits-info">
             <p>Total Créditos: {{ totalCreditos }}</p>

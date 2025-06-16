@@ -1,17 +1,68 @@
-.view-clases-container {
-    width: 70%;
-    margin: auto;
+.view-container {
     text-align: center;
+    padding: 20px;
 }
 
-ul {
-    list-style-type: none;
-    padding-left: 0;
+.classes-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
 }
 
-li {
+.classes-table th,
+.classes-table td {
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.classes-table th {
+    background-color: #3f51b5;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.classes-table td {
     background-color: #f1f1f1;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.classes-table button {
+    margin: 5px;
+    font-size: 14px;
+}
+
+.classes-table button.mat-button {
+    min-width: 100px;
+}
+
+.credits-info {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.no-data {
+    text-align: center;
+    color: #888;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+h3 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #3f51b5;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.no-data p {
+    font-size: 1.2em;
+    font-weight: normal;
 }

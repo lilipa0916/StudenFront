@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit {
   viewClases(id: number): void {
     console.log('Ver clases Id estudiante', id);
       // this.router.navigate(['/lista']);
-    this.router.navigate(['view-clases', id]);
+    this.router.navigate(['/view-clases', id]);
   }
 
     editEstudiante(id: number) {

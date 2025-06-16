@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Estudiante,  } from '../models/Estudiante';
-import { ClasesCompaneros } from '../models/Clases-companeros';
 import { EstudianteCreateDto } from '../models/Estudiante-create-dto.model';
 
 @Injectable({
@@ -24,10 +23,9 @@ export class EstudianteService {
         return this.http.post<Estudiante>(`${this.apiUrl}/estudiantes`, estudiante);
     }
 
-    getCompaneros(estudianteId: number): Observable<ClasesCompaneros> {
-        return this.http.get<ClasesCompaneros>(`${this.apiUrl}/${estudianteId}/companeros`);
+    getCompaneros(estudianteId: number): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/estudiantes/${estudianteId}/companeros`);
     }
-
     deleteEstudiante(id: number): Observable<boolean> {
         return this.http.delete<boolean>(`${this.apiUrl}/estudiantes/${id}`);
     }

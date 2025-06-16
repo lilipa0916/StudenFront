@@ -17,9 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';  
 import { EditEstudianteComponent } from './components/editar-estudiante/edit-estudiante.component'; 
 import { ViewClasesComponent } from './components/list-clases/view-clases.component'; 
-import { RegisterClasesComponent } from './components/registrar-clases/register-clases.component'; 
 
-import { ListaEstudiantesComponent } from './components/list/lista-estudiantes.component';  // Si tienes una página de registro
 
 @NgModule({
   declarations: [
@@ -28,8 +26,6 @@ import { ListaEstudiantesComponent } from './components/list/lista-estudiantes.c
     RegisterComponent,
     EditEstudianteComponent,
     ViewClasesComponent,
-    RegisterClasesComponent,
-    ListaEstudiantesComponent,
   ],
   imports: [
     BrowserModule,

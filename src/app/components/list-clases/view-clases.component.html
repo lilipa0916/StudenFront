@@ -1,19 +1,35 @@
-<div class="view-clases-container">
-    <h2>Ver Clases</h2>
+<div class="home-container">
+    <div *ngIf="clases.length > 0; else noData">
+        <h3>Materias y Compañeros</h3>
+        <table mat-table [dataSource]="clases" class="classes-table">
+            <!-- Definición de las columnas -->
+            <ng-container matColumnDef="materiaNombre">
+                <th mat-header-cell *matHeaderCellDef>Materia</th>
+                <td mat-cell *matCellDef="let clase">{{ clase.materiaNombre }}</td>
+            </ng-container>
 
-    <div *ngIf="clases.length > 0">
-        <h3>Clases Inscritas</h3>
-        <ul>
-            <li *ngFor="let clase of clases">
-                {{ clase.nombre }} - {{ clase.profesorNombre }}
-            </li>
-        </ul>
+            <ng-container matColumnDef="companeros">
+                <th mat-header-cell *matHeaderCellDef>Compañeros</th>
+                <td mat-cell *matCellDef="let clase">{{ clase.companeros.join(', ') }}</td>
+            </ng-container>
 
-        <h3>Compañeros de Clase</h3>
-        <ul>
-            <li *ngFor="let companero of companeros">
-                {{ companero.nombre }}
-            </li>
-        </ul>
+            <!-- Filas del encabezado -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <!-- Filas de contenido -->
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <div class="credits-info">
+            <p>Total Créditos: {{ totalCreditos }}</p>
+        </div>
     </div>
+
+    <ng-template #noData>
+        <div class="no-data">
+            <p>No hay clases registradas o compañeros disponibles.</p>
+        </div>
+    </ng-template>
+
+    <button mat-raised-button color="primary" (click)="Volver()">Volver</button>
+
 </div>

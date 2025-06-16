@@ -6,11 +6,6 @@
 
     <app-register *ngIf="showRegisterForm" (studentRegistered)="onStudentRegistered()"></app-register>
 
-    <!-- Mostrar formulario de registro -->
-    <!-- <div *ngIf="showRegisterForm">
-        <app-register></app-register>
-    </div> -->
-
     <!-- Mostrar tabla de estudiantes -->
     <div *ngIf="estudiantes.length > 0">
         <h3>Estudiantes Registrados</h3>
@@ -32,8 +27,7 @@
                 <td mat-cell *matCellDef="let estudiante">
                     <button mat-button (click)="editEstudiante(estudiante.id)">Editar</button>
                     <button mat-button color="warn" (click)="deleteEstudiante(estudiante.id)">Eliminar</button>
-                    <!-- <button mat-button color="primary" (click)="registerClasses(estudiante)">Registrar Clases</button> -->
-                    <button mat-button color="accent" (click)="viewClases(estudiante.id)">Ver Clases</button>
+                    <button mat-button color="accent" (click)="viewClases(estudiante.id)">Detalle</button>
 
 
                 </td>

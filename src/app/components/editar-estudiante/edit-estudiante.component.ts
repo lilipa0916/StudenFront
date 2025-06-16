@@ -20,7 +20,7 @@ export class EditEstudianteComponent implements OnInit {
   errorMessage: string = '';
   materias: Materia[] = [];
   totalCreditos: number = 0;
-  profesorMaterias: Set<number> = new Set(); // Para verificar que solo se selecciona una materia por profesor
+  //profesorMaterias: Set<number> = new Set(); // Para verificar que solo se selecciona una materia por profesor
 
   constructor(
     private fb: FormBuilder,
@@ -59,15 +59,33 @@ export class EditEstudianteComponent implements OnInit {
   // }
 
   
-  materiasValidator(control: any): { [key: string]: boolean } | null {
-      if (control.value.length > 3) {
-      return { 'maxMaterias': true };
-      }
+  materiasValidator = (control: any) => {
+    const selected: number[] = control.value;
+    if (!selected) {
       return null;
-  }  
+    }
+    const errors: any = {};
+    // FIX: Permitir como máximo 3 materias seleccionadas
+    if (selected.length > 3) {
+      errors['maxMaterias'] = true;
+    }
+    // FIX: No permitir dos materias con el mismo profesor
+    const chosenMaterias = this.materias.filter(m => selected.includes(m.id));
+    const seenProfessors = new Set();
+    // for (const mat of chosenMaterias) {
+    //   const profIdentifier = (mat as any).profesorId !== undefined ? mat['Id'] : mat.profesorNombre;
+    //   if (profIdentifier != null) {
+    //     if (seenProfessors.has(profIdentifier)) {
+    //       errors['profesorRepetido'] = true;
+    //       break;
+    //     }
+    //     seenProfessors.add(profIdentifier);
+    //   }
+    // }
+    return Object.keys(errors).length ? errors : null;
+  }
 
   ngOnInit(): void {
-        console.log('Id en edit estudiante edit clases',this.route.snapshot.paramMap.get('id'));
 
     this.estudianteId = +this.route.snapshot.paramMap.get('id')!||0;
     this.loadEstudiante();
@@ -79,17 +97,16 @@ export class EditEstudianteComponent implements OnInit {
     this.materiaService.getMaterias().subscribe((materias) => {
       this.materias = materias;  // Guardar las materias disponibles
     });
-     this.updateTotalCreditos();
+    this.updateTotalCreditos();
   }
 
   loadEstudiante() {
     this.estudianteService.getEstudianteById(this.estudianteId).subscribe((data) => {
-      console.log ('Data edid', data)
       this.estudiante = data;
       this.estudianteForm.setValue({
         nombre: this.estudiante.nombre,
         documento: this.estudiante.documento,
-        materias: this.estudiante.materias.map((materia) => materia.id) // Asumimos que las materias son un array de objetos
+        materias: this.estudiante.materias.map(m=> m.id) // Asumimos que las materias son un array de objetos
       });
       this.updateTotalCreditos();
     });
@@ -97,14 +114,14 @@ export class EditEstudianteComponent implements OnInit {
   updateTotalCreditos() {
     const selectedMaterias = this.estudianteForm.value.materias;
     this.totalCreditos = 0;
-    this.profesorMaterias.clear(); 
+   // this.profesorMaterias.clear(); 
 
     // Iterar sobre las materias seleccionadas y sumar los créditos
     selectedMaterias.forEach((materiaId: number) => {
       const materia = this.materias.find((m) => m.id === materiaId);
       if (materia) {
         this.totalCreditos += materia.creditos;
-        this.profesorMaterias.add(materia.id);
+        //this.profesorMaterias.add(materia.id);
       }
     });
   }
