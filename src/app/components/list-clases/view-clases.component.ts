@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class ViewClasesComponent implements OnInit {
   estudianteId!: number;
   clases: any[] = [];
-  displayedColumns: string[] = ['materiaNombre', 'companeros']; // Columnas a mostrar en la tabla
+  displayedColumns: string[] = ['materiaNombre', 'companeros'];  
   totalCreditos: number = 0; 
 
   constructor(
@@ -29,17 +29,12 @@ export class ViewClasesComponent implements OnInit {
 
 
 loadClases() {
-    // Suponiendo que ya tienes la función en el servicio de estudiante para obtener los compañeros y materias
     this.estudianteService.getCompaneros(this.estudianteId).subscribe((data: any[]) => {
-      console.log('Datos recibidos:', data);
-
-      // Asignar el array de datos al objeto 'clases' para la vista
-      this.clases = data;
-         this.totalCreditos = this.clases.length * 3;
+    this.clases = data;
+    this.totalCreditos = this.clases.length * 3;
     });
   }
-Volver(){
+  Volver(){
     this.router.navigate(['/home']);
-
-}
+  }
 }

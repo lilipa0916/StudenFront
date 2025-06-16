@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '../app/components/home/home.component' ;
-import { RegisterComponent } from './components/registrar-estudiante/register.component';  // Si tienes una página de registro
-import { ViewClasesComponent } from './components/list-clases/view-clases.component';  // Si tienes una página de registro
-import { EditEstudianteComponent } from './components/editar-estudiante/edit-estudiante.component';  // Si tienes una página de registro
+import { RegisterComponent } from './components/registrar-estudiante/register.component'; 
+import { ViewClasesComponent } from './components/list-clases/view-clases.component';  
+import { EditEstudianteComponent } from './components/editar-estudiante/edit-estudiante.component';  
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },  

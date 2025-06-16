@@ -1,7 +1,11 @@
 .edit-container {
     width: 60%;
+    padding: 20px;
+    max-width: 600px;
     margin: auto;
-    text-align: center;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #ccc;
 }
 
 mat-form-field {
@@ -10,7 +14,35 @@ mat-form-field {
 }
 
 button {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+mat-icon {
+    margin-right: 8px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
     margin-top: 20px;
+}
+
+button.mat-raised-button {
+    min-width: 120px;
+    margin: 10px;
+}
+
+.credits-info {
+    margin-top: 20px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    font-size: 1.5em;
 }
 
 .error-message {

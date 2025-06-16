@@ -1,4 +1,4 @@
-import { Materia } from './Materia'; // Importa el modelo Materia
+import { Materia } from './Materia';
 
 export interface Estudiante {
   id: number;

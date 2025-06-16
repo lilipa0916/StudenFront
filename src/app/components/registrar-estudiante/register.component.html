@@ -36,14 +36,13 @@
         </div>
 
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">Registrar</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid"> <mat-icon>save</mat-icon>Registrar</button>
     </form>
 
     <div *ngIf="errorMessage" class="error-message">
         <p>{{ errorMessage }}</p>
     </div>
 
-    <!-- Mostrar el mensaje de éxito si lo hay -->
     <div *ngIf="successMessage" class="success-message">
         <p>{{ successMessage }}</p>
     </div>

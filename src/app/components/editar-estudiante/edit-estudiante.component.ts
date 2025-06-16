@@ -6,7 +6,6 @@ import { Estudiante } from '../../models/Estudiante';
 import { Materia } from '../../models/Materia';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EstudianteCreateDto } from 'src/app/models/Estudiante-create-dto.model';
-// import { MatFormFieldModule, MatInputModule, MatButtonModule, MatErrorModule, MatLabelModule } from '@angular/material';
 
 @Component({
   selector: 'app-edit-estudiante',
@@ -20,12 +19,11 @@ export class EditEstudianteComponent implements OnInit {
   errorMessage: string = '';
   materias: Materia[] = [];
   totalCreditos: number = 0;
-  //profesorMaterias: Set<number> = new Set(); // Para verificar que solo se selecciona una materia por profesor
 
   constructor(
     private fb: FormBuilder,
     private estudianteService: EstudianteService,
-    private materiaService: MateriaService, // Servicio de Materias
+    private materiaService: MateriaService, 
     private route: ActivatedRoute,
     private router: Router
 
@@ -33,55 +31,19 @@ export class EditEstudianteComponent implements OnInit {
     this.estudianteForm = this.fb.group({
       nombre: ['', Validators.required],
       documento: ['', Validators.required],
-      materias: [[], Validators.required]
+      materias: [[], [Validators.required]]
+
     });
   }
-  // materiasValidator(control: any): { [key: string]: boolean } | null {
-    // const selectedMaterias = control.value;
-    
-    // if (selectedMaterias.length > 3) {
-    //   return { 'maxMaterias': true };
-    // }
-
-    // // Verificar que no haya materias con el mismo profesor
-    // const profesorIds = selectedMaterias.map((materiaId: number) => {
-    //   const materia = this.materias.find((m) => m.id === materiaId);
-    //   return materia ? materia.id : null;
-    // });
-    
-    // const uniqueProfesorIds = new Set(profesorIds);
-    // if (uniqueProfesorIds.size !== profesorIds.length) {
-    //   return { 'sameProfessor': true }; // Error si hay dos materias con el mismo profesor
-    // }
-
-    // return null;
-    
-  // }
-
-  
   materiasValidator = (control: any) => {
     const selected: number[] = control.value;
-    if (!selected) {
-      return null;
-    }
     const errors: any = {};
-    // FIX: Permitir como máximo 3 materias seleccionadas
-    if (selected.length > 3) {
-      errors['maxMaterias'] = true;
+    if (!selected || selected.length === 0) {
+      errors['required'] = true;  // Error si no se seleccionan materias
     }
-    // FIX: No permitir dos materias con el mismo profesor
-    const chosenMaterias = this.materias.filter(m => selected.includes(m.id));
-    const seenProfessors = new Set();
-    // for (const mat of chosenMaterias) {
-    //   const profIdentifier = (mat as any).profesorId !== undefined ? mat['Id'] : mat.profesorNombre;
-    //   if (profIdentifier != null) {
-    //     if (seenProfessors.has(profIdentifier)) {
-    //       errors['profesorRepetido'] = true;
-    //       break;
-    //     }
-    //     seenProfessors.add(profIdentifier);
-    //   }
-    // }
+    if (selected.length > 3) {
+      errors['maxMaterias'] = true;  // Error si se seleccionan más de 3 materias
+    }
     return Object.keys(errors).length ? errors : null;
   }
 
@@ -95,7 +57,7 @@ export class EditEstudianteComponent implements OnInit {
 
   loadMaterias() {
     this.materiaService.getMaterias().subscribe((materias) => {
-      this.materias = materias;  // Guardar las materias disponibles
+      this.materias = materias;  
     });
     this.updateTotalCreditos();
   }
@@ -103,52 +65,62 @@ export class EditEstudianteComponent implements OnInit {
   loadEstudiante() {
     this.estudianteService.getEstudianteById(this.estudianteId).subscribe((data) => {
       this.estudiante = data;
+
+        const materiasSeleccionadas = data.materias.map((m: any) => m.materiaId);  
+       
+      const ids = this.estudiante.materias.map(m => m.id);
+      this.estudianteForm.patchValue({ materias: ids });
+
       this.estudianteForm.setValue({
         nombre: this.estudiante.nombre,
         documento: this.estudiante.documento,
-        materias: this.estudiante.materias.map(m=> m.id) // Asumimos que las materias son un array de objetos
-      });
+        materias: materiasSeleccionadas
+        
+      });        
       this.updateTotalCreditos();
     });
   }
   updateTotalCreditos() {
     const selectedMaterias = this.estudianteForm.value.materias;
     this.totalCreditos = 0;
-   // this.profesorMaterias.clear(); 
 
-    // Iterar sobre las materias seleccionadas y sumar los créditos
     selectedMaterias.forEach((materiaId: number) => {
       const materia = this.materias.find((m) => m.id === materiaId);
       if (materia) {
         this.totalCreditos += materia.creditos;
-        //this.profesorMaterias.add(materia.id);
       }
     });
   }
+  
  onSubmit() {
+  console.log('Formulario válido?'); 
+  console.log('Formulario válido?', this.estudianteForm.valid); 
+
     if (this.estudianteForm.valid) {
       const updatedEstudiante: EstudianteCreateDto = {
         id: this.estudianteId,
         nombre: this.estudianteForm.value.nombre,
         documento: this.estudianteForm.value.documento,
-        materiaIds: this.estudianteForm.value.materias // Pasamos las materias seleccionadas
+        materiaIds: this.estudianteForm.value.materias 
       };
 
       this.estudianteService.updateEstudiante(this.estudianteId, updatedEstudiante).subscribe(
         () => {
-          this.router.navigate(['/home']); // Redirigir a la página de inicio
+          this.router.navigate(['/home']); 
         },
         (error) => {
-        // Verificar que el error tenga un mensaje
         if (error.status === 400 && error.error) {
-          this.errorMessage = error.error;  // Asignamos el mensaje de error directamente desde el backend
+          this.errorMessage = error.error;  
         } else {
-          // Mensaje genérico si no hay mensaje específico
           this.errorMessage = 'Ocurrió un error inesperado. Intenta de nuevo.';
         }
         console.error('Error al a estudiante', error);
       }
       );
     }
+  }
+
+  Volver(){
+    this.router.navigate(['/home']);
   }
 }

@@ -18,7 +18,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { EditEstudianteComponent } from './components/editar-estudiante/edit-estudiante.component'; 
 import { ViewClasesComponent } from './components/list-clases/view-clases.component'; 
 
-
 @NgModule({
   declarations: [
     AppComponent,

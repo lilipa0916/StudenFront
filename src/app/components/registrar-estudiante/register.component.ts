@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit {
             materias: [[], [Validators.required, this.materiasValidator]]
         });
     }
-
+    @Output() studentRegistered = new EventEmitter<void>();  
     ngOnInit() {
         this.loadMaterias();
         this.loadProfesores();
@@ -53,7 +53,6 @@ export class RegisterComponent implements OnInit {
     const selectedMaterias = this.registerForm.value.materias;
     this.totalCreditos = 0;
 
-    // Iterar sobre las materias seleccionadas y sumar los créditos
     selectedMaterias.forEach((materiaId: number) => {
       const materia = this.materias.find((m) => m.id === materiaId);
       if (materia) {
@@ -81,60 +80,36 @@ export class RegisterComponent implements OnInit {
         return null;
     }    
 
-onSubmit() {
-  if (this.registerForm.valid) {
-    const estudianteCreateDto: EstudianteCreateDto = {
-      id:0,
-      nombre: this.registerForm.value.nombre,
-      documento: this.registerForm.value.documento,
-      materiaIds: this.registerForm.value.materias // Pasamos las materias seleccionadas
-    };
+    onSubmit() {
+      if (this.registerForm.valid) {
+        const estudianteCreateDto: EstudianteCreateDto = {
+          id:0,
+          nombre: this.registerForm.value.nombre,
+          documento: this.registerForm.value.documento,
+          materiaIds: this.registerForm.value.materias 
+        };
 
-  this.estudianteService.registerEstudiante(estudianteCreateDto).subscribe(
-      (response) => {
-        console.log('Estudiante registrado', response);
-        this.registerForm.reset()
-        this.successMessage = '¡Estudiante registrado con éxito!';
-        this.errorMessage = ''; // Limpiar cualquier mensaje de error en caso de éxito
-        this.router.navigate(['/home']);
-      },
-      (error) => {
-        // Verificar que el error tenga un mensaje
-        if (error.status === 400 && error.error) {
-          this.errorMessage = error.error;  
-        } else {
-          this.errorMessage = 'Ocurrió un error inesperado. Intenta de nuevo.';
-        }
-        console.error('Error al registrar estudiante', error);
-      }
-    );
-  }
-}
-
-    // getProfesoresDeMateria(materiaId: number): Profesor[] {
-    //     return this.profesores.filter(
-    //         (profesor) => profesor.materias.some((materia) => materia.id === materiaId)
-    //         );
-    // }
-
-    getProfesoresDeMateria(materiaId: number): Profesor[] {
-        // Obtener los profesores que están asociados a la materia seleccionada
-        const profesoresDeMateria: Profesor[] = [];
-        this.profesorService.getProfesoresPorMateria(materiaId).subscribe(
-        (profesores) => {
-            profesoresDeMateria.push(...profesores);
-        },
-        (error) => {
-            console.error('Error al obtener profesores de la materia', error);
-        }
+      this.estudianteService.registerEstudiante(estudianteCreateDto).subscribe(
+          (response) => {
+            console.log('Estudiante registrado', response);
+           // this.registerForm.reset()
+            this.successMessage = '¡Estudiante registrado con éxito!';
+            this.errorMessage = ''; 
+            this.studentRegistered.emit(); 
+            this.router.navigate(['/home']);
+          },
+          (error) => {
+            if (error.status === 400 && error.error) {
+              this.errorMessage = error.error;  
+            } else {
+              this.errorMessage = 'Ocurrió un error inesperado. Intenta de nuevo.';
+            }
+            console.error('Error al registrar estudiante', error);
+          }
         );
-        return profesoresDeMateria;
+      }
     }
-    getCompañeros() {
-        const estudianteId = this.registerForm.value.estudianteId;
-        this.estudianteService.getCompaneros(estudianteId).subscribe((companeros) => {
-            console.log(companeros);
-        });
-    }
+
+
 
 }
