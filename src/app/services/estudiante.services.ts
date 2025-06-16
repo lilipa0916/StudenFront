@@ -18,7 +18,7 @@ export class EstudianteService {
     }
 
     getEstudianteById(id: number): Observable<Estudiante> {
-        return this.http.get<Estudiante>(`${this.apiUrl}/${id}`);
+        return this.http.get<Estudiante>(`${this.apiUrl}/estudiantes/${id}`);
     }
     registerEstudiante(estudiante: EstudianteCreateDto): Observable<Estudiante> {
         return this.http.post<Estudiante>(`${this.apiUrl}/estudiantes`, estudiante);

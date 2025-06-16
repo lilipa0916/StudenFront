@@ -1,18 +1,19 @@
 <div class="home-container">
-    <div class="options">
+    <!-- <div class="options">
         <button mat-raised-button color="primary" (click)="showRegister()">Registrar Estudiante</button>
-    </div>
+    </div> -->
+    <button mat-raised-button color="primary" (click)="showRegister()">Registrar Estudiante</button>
+
+    <app-register *ngIf="showRegisterForm" (studentRegistered)="onStudentRegistered()"></app-register>
 
     <!-- Mostrar formulario de registro -->
-    <div *ngIf="showRegisterForm">
+    <!-- <div *ngIf="showRegisterForm">
         <app-register></app-register>
-    </div>
+    </div> -->
 
     <!-- Mostrar tabla de estudiantes -->
     <div *ngIf="estudiantes.length > 0">
         <h3>Estudiantes Registrados</h3>
-
-        <app-register (estudianteCreado)="agregarEstudianteATabla($event)"></app-register>
 
         <table mat-table [dataSource]="estudiantes" class="student-table">
             <!-- Columnas de la tabla -->
@@ -29,13 +30,12 @@
             <ng-container matColumnDef="acciones">
                 <th mat-header-cell *matHeaderCellDef>Acciones</th>
                 <td mat-cell *matCellDef="let estudiante">
-                    <button mat-button (click)="editEstudiante(estudiante)">Editar</button>
-                    <button mat-button color="warn" (click)="deleteEstudiante(estudiante)">Eliminar</button>
+                    <button mat-button (click)="editEstudiante(estudiante.id)">Editar</button>
+                    <button mat-button color="warn" (click)="deleteEstudiante(estudiante.id)">Eliminar</button>
                     <!-- <button mat-button color="primary" (click)="registerClasses(estudiante)">Registrar Clases</button> -->
-                    <button mat-button color="accent" (click)="viewClasses(estudiante)">Ver Clases</button>
+                    <button mat-button color="accent" (click)="viewClases(estudiante.id)">Ver Clases</button>
 
-                    <button mat-button color="primary" [routerLink]="['/edit-estudiante', estudiante.id]">Editar  Rut</button>
-                    <button mat-button color="accent" [routerLink]="['/register-clases', estudiante.id]">Registrar Clases Rut</button>
+
                 </td>
             </ng-container>
 

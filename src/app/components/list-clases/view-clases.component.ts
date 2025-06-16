@@ -19,6 +19,8 @@ export class ViewClasesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('Id en edit estudiante view');
+
     this.estudianteId = +this.route.snapshot.paramMap.get('id')!;
     this.loadClases();
   }

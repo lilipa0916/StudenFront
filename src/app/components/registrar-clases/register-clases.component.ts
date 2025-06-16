@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Output, EventEmitter  } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EstudianteService } from '../../services/estudiante.services';
 import { MateriaService } from '../../services/materia.service';

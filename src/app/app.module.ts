@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './components/home/home.component';
-
 import { RegisterComponent } from './components/registrar-estudiante/register.component'; 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input'; 
@@ -17,16 +15,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon'; 
 import { ReactiveFormsModule } from '@angular/forms';  
 import { HttpClientModule } from '@angular/common/http';  
-
-
-// import { MatErrorModule } from '@angular/material/core'; // Para mat-error
-// import { MatLabelModule } from '@angular/material/form-field'; // Para mat-label
-
-
 import { EditEstudianteComponent } from './components/editar-estudiante/edit-estudiante.component'; 
 import { ViewClasesComponent } from './components/list-clases/view-clases.component'; 
 import { RegisterClasesComponent } from './components/registrar-clases/register-clases.component'; 
 
+import { ListaEstudiantesComponent } from './components/list/lista-estudiantes.component';  // Si tienes una página de registro
 
 @NgModule({
   declarations: [
@@ -36,6 +29,7 @@ import { RegisterClasesComponent } from './components/registrar-clases/register-
     EditEstudianteComponent,
     ViewClasesComponent,
     RegisterClasesComponent,
+    ListaEstudiantesComponent,
   ],
   imports: [
     BrowserModule,

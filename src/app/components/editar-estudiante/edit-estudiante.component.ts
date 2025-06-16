@@ -17,8 +17,11 @@ export class EditEstudianteComponent implements OnInit {
   estudianteForm: FormGroup;
   estudianteId: number=0;
   estudiante!: Estudiante;
-  errorMessage: string = ''; 
+  errorMessage: string = '';
   materias: Materia[] = [];
+  totalCreditos: number = 0;
+  profesorMaterias: Set<number> = new Set(); // Para verificar que solo se selecciona una materia por profesor
+
   constructor(
     private fb: FormBuilder,
     private estudianteService: EstudianteService,
@@ -30,16 +33,45 @@ export class EditEstudianteComponent implements OnInit {
     this.estudianteForm = this.fb.group({
       nombre: ['', Validators.required],
       documento: ['', Validators.required],
-       materias: [[], Validators.required]
+      materias: [[], Validators.required]
     });
   }
+  // materiasValidator(control: any): { [key: string]: boolean } | null {
+    // const selectedMaterias = control.value;
+    
+    // if (selectedMaterias.length > 3) {
+    //   return { 'maxMaterias': true };
+    // }
+
+    // // Verificar que no haya materias con el mismo profesor
+    // const profesorIds = selectedMaterias.map((materiaId: number) => {
+    //   const materia = this.materias.find((m) => m.id === materiaId);
+    //   return materia ? materia.id : null;
+    // });
+    
+    // const uniqueProfesorIds = new Set(profesorIds);
+    // if (uniqueProfesorIds.size !== profesorIds.length) {
+    //   return { 'sameProfessor': true }; // Error si hay dos materias con el mismo profesor
+    // }
+
+    // return null;
+    
+  // }
+
+  
+  materiasValidator(control: any): { [key: string]: boolean } | null {
+      if (control.value.length > 3) {
+      return { 'maxMaterias': true };
+      }
+      return null;
+  }  
 
   ngOnInit(): void {
-        console.error('Id en edit estudiante', this.route.snapshot.paramMap.get('id'));
+        console.log('Id en edit estudiante edit clases',this.route.snapshot.paramMap.get('id'));
 
     this.estudianteId = +this.route.snapshot.paramMap.get('id')!||0;
     this.loadEstudiante();
-      this.loadMaterias();
+    this.loadMaterias();
   }
 
 
@@ -47,19 +79,35 @@ export class EditEstudianteComponent implements OnInit {
     this.materiaService.getMaterias().subscribe((materias) => {
       this.materias = materias;  // Guardar las materias disponibles
     });
+     this.updateTotalCreditos();
   }
 
   loadEstudiante() {
     this.estudianteService.getEstudianteById(this.estudianteId).subscribe((data) => {
+      console.log ('Data edid', data)
       this.estudiante = data;
       this.estudianteForm.setValue({
         nombre: this.estudiante.nombre,
         documento: this.estudiante.documento,
         materias: this.estudiante.materias.map((materia) => materia.id) // Asumimos que las materias son un array de objetos
       });
+      this.updateTotalCreditos();
     });
   }
+  updateTotalCreditos() {
+    const selectedMaterias = this.estudianteForm.value.materias;
+    this.totalCreditos = 0;
+    this.profesorMaterias.clear(); 
 
+    // Iterar sobre las materias seleccionadas y sumar los créditos
+    selectedMaterias.forEach((materiaId: number) => {
+      const materia = this.materias.find((m) => m.id === materiaId);
+      if (materia) {
+        this.totalCreditos += materia.creditos;
+        this.profesorMaterias.add(materia.id);
+      }
+    });
+  }
  onSubmit() {
     if (this.estudianteForm.valid) {
       const updatedEstudiante: EstudianteCreateDto = {

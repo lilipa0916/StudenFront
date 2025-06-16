@@ -19,16 +19,24 @@
 
         <mat-form-field appearance="fill">
             <mat-label>Selecciona las materias</mat-label>
-            <mat-select formControlName="materias" multiple>
+            <mat-select formControlName="materias" multiple (selectionChange)="updateTotalCreditos()">
                 <mat-option *ngFor="let materia of materias" [value]="materia.id">
-                    {{ materia.nombre }} - {{ materia.creditos }} créditos
+                    {{ materia.nombre }} - {{ materia.creditos }} créditos - {{ materia.profesorNombre }}
                 </mat-option>
             </mat-select>
             <mat-error *ngIf="estudianteForm.controls['materias'].hasError('required')">
-                Debes seleccionar al menos una materia.
+                Debes seleccionar 3 materias.
+            </mat-error>
+            <mat-error *ngIf="estudianteForm.controls['materias'].hasError('maxMaterias')">
+                Un estudiante solo puede seleccionar 3 materias.
+            </mat-error>
+            <mat-error *ngIf="estudianteForm.controls['materias'].hasError('sameProfessor')">
+                No puedes seleccionar 2 materias con el mismo profesor.
             </mat-error>
         </mat-form-field>
-
+        <div class="credits-info">
+            <p>Total Créditos: {{ totalCreditos }}</p>
+        </div>
         <button mat-raised-button color="primary" type="submit" [disabled]="estudianteForm.invalid">Guardar Cambios</button>
     </form>
 
